@@ -21,7 +21,7 @@ class TaskModelTestCase (TestCase):
         self.assertEqual(task.due_at, due)
 
     def test_create_task2(self):
-        task = Task(title='task2', due_at=due)
+        task = Task(title='task2')
         task.save()
         
         task = Task.objects.get(pk=task.pk)
