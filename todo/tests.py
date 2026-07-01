@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import datetime
 from todo.models import Task
 
+
 # Create your tests here.
 class SampleTestCase(TestCase):
     def test_sample1(self):
@@ -68,7 +69,7 @@ class TodoViewTestCase (TestCase):
     def test_index_get_order_post(self):
         task1 = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
         task1.save()
-        task2 = Task(title='task2', due_at=timezone.make_aware(datetime (2024, 8, 1)))
+        task2 = Task(title='task2', due_at=timezone.make_aware(datetime(2024, 8, 1)))
         task2.save()
         client = Client()
         response = client.get('/?order=post')
@@ -80,7 +81,7 @@ class TodoViewTestCase (TestCase):
     def test_index_get_order_due(self):
         task1 = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
         task1.save()
-        task2 = Task(title='task2', due_at=timezone.make_aware(datetime (2024, 8, 1)))
+        task2 = Task(title='task2', due_at=timezone.make_aware(datetime(2024, 8, 1)))
         task2.save()
         client = Client()
         response = client.get('/?order=due')
