@@ -103,3 +103,17 @@ class TodoViewTestCase (TestCase):
         client = Client()
         response = client.get('/1/')
         self.assertEqual(response.status_code, 404)
+
+    def test_delete_task_success(self):
+        task = Task(title='task-to-delete')
+        task.save()
+        client = Client()
+
+        response = client.get('/{}/delete/'.format(task.pk))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Task.objects.filter(pk=task.pk).exists())
+
+    def test_delete_task_not_found(self):
+        client = Client()
+        response = client.get('/999/delete/')
+        self.assertEqual(response.status_code, 404)
