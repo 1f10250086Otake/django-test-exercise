@@ -19,6 +19,10 @@
 <input id="dueInput" name="due_at" type="datetime-local" value="{{ task.due_at|date:'Y-m-d\TH:i' }}">
 </div>
 <div>
+<label for="memoInput">Memo</label><br>
+<textarea id="memoInput" name="memo" rows="5" cols="40">{{ task.memo }}</textarea>
+</div>
+<div>
 <label for="completedInput">Completed</label>
 <input id="completedInput" name="completed" type="checkbox"{% if task.completed %} checked{% endif %}>
 </div>
