@@ -11,7 +11,9 @@
 <body>
     <h1>{{ task.title }}</h1>
     <ul>
-        <li>Posted at: {{ task.posted_at }}</1 {% if task.due_at %} <li>Due at: {{ task.due_at }}</li>
+        <li>Posted at: {{ task.posted_at }}</li>
+        {% if task.due_at %}
+        <li>Due at: {{ task.due_at }}</li>
         {% endif %}
         {% if task.completed %}
         <li>Status: Completed</li>
@@ -19,6 +21,12 @@
         <li>Status: Not Completed</li>
         {% endif %}
     </ul>
+    {% if task.memo %}
+    <div>
+        <h3>Memo:</h3>
+        <p>{{ task.memo|linebreaks }}</p>
+    </div>
+    {% endif %}
     <div>
         <a href="{% url 'index' %}">Top</a>
         | <a href="{% url 'edit' task.id %}">Edit</a>
