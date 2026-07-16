@@ -102,6 +102,23 @@ class TodoViewTestCase (TestCase):
         self.assertEqual(list(response.context['tasks']), [task1])
         self.assertEqual(response.context['query'], 'milk')
 
+    def test_index_get_search_is_case_insensitive(self):
+        task = Task(title='Buy Milk')
+        task.save()
+        client = Client()
+        response = client.get('/?q=milk')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['tasks']), [task])
+        self.assertEqual(response.context['query'], 'milk')
+
+    def test_index_get_search_no_results(self):
+        Task(title='buy milk').save()
+        client = Client()
+        response = client.get('/?q=meeting')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['tasks']), [])
+        self.assertEqual(response.context['query'], 'meeting')
+
     def test_detail_get_success(self):
         task = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
         task.save()
