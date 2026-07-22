@@ -58,6 +58,20 @@ class TodoViewTestCase (TestCase):
         self.assertEqual(response.templates[0].name, 'todo/index.html')
         self.assertEqual(len(response.context['tasks']), 0)
 
+    def test_terminal_get(self):
+        client = Client()
+        response = client.get('/terminal/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/terminal.html')
+        self.assertContains(response, 'id="terminalOutput"')
+        self.assertContains(response, 'id="terminalInput"')
+        self.assertContains(response, '/static/todo/terminal.js')
+
+    def test_index_has_terminal_link(self):
+        client = Client()
+        response = client.get('/')
+        self.assertContains(response, 'href="/terminal/"')
+
     def test_index_post(self):
         client = Client()
         data = {'title': 'Test Task', 'due_at': '2024-06-30 23:59:59'}
