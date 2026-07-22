@@ -49,6 +49,18 @@ class TaskModelTestCase (TestCase):
         current = timezone.make_aware(datetime(2024, 7, 1, 0, 0, 0))
         self.assertFalse(task.is_overdue(current))
 
+    def test_memo_default(self):
+        task = Task(title='no memo')
+        task.save()
+        task = Task.objects.get(pk=task.pk)
+        self.assertEqual(task.memo, '')
+
+    def test_memo_saved(self):
+        task = Task(title='with memo', memo='remember to call')
+        task.save()
+        task = Task.objects.get(pk=task.pk)
+        self.assertEqual(task.memo, 'remember to call')
+
 
 class TodoViewTestCase (TestCase):
     def test_index_get(self):
@@ -146,3 +158,22 @@ class TodoViewTestCase (TestCase):
         client = Client()
         response = client.get('/999/delete/')
         self.assertEqual(response.status_code, 404)
+
+    def test_index_post_with_memo(self):
+        client = Client()
+        data = {'title': 'Task with memo', 'due_at': '2024-06-30 23:59:59', 'memo': 'note body'}
+        response = client.post('/', data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 1)
+        self.assertEqual(response.context['tasks'][0].memo, 'note body')
+
+    def test_edit_post_updates_memo(self):
+        task = Task(title='task1', memo='old', due_at=timezone.make_aware(datetime(2024, 7, 1)))
+        task.save()
+        client = Client()
+        data = {'title': 'task1', 'memo': 'new memo', 'due_at': '2024-07-01 00:00:00'}
+        response = client.post('/{}/edit/'.format(task.pk), data)
+        self.assertEqual(response.status_code, 302)
+        task.refresh_from_db()
+        self.assertEqual(task.memo, 'new memo')
