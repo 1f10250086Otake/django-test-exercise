@@ -1,3 +1,7 @@
+:root {
+  color-scheme: light dark;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f7f9fc;
@@ -63,4 +67,34 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827;
+    color: #e5e7eb;
+  }
+
+  h1 {
+    color: #f9fafb;
+    border-color: #374151;
+  }
+
+  form,
+  .text {
+    background-color: #1f2937;
+    border-color: #4b5563;
+  }
+
+  input[type="text"],
+  input[type="datetime-local"],
+  textarea {
+    background-color: #111827;
+    color: #f9fafb;
+    border-color: #6b7280;
+  }
+
+  a {
+    color: #93c5fd;
+  }
 }
