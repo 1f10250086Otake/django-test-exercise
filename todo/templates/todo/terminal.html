@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Terminal Emulator</title>
+<meta charset="UTF-8">
+<meta name="author" content="INIAD">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'todo/terminal.css' %}">
+<script src="{% static 'todo/terminal.js' %}" defer></script>
+</head>
+<body>
+<main>
+<nav><a href="{% url 'index' %}">Back to To Do Application</a></nav>
+<h1>Terminal Emulator</h1>
+<p>Type <code>help</code> to see available commands. Files are reset when this page is reloaded.</p>
+<section class="terminal" aria-label="Terminal emulator">
+<div id="terminalOutput" class="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
+<form id="terminalForm" class="terminal-form">
+<label id="terminalPrompt" for="terminalInput">guest@browser:/home/guest$</label>
+<input id="terminalInput" name="command" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+<button type="submit">Run</button>
+</form>
+</section>
+</main>
+</body>
+</html>
